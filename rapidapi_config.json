@@ -1,0 +1,105 @@
+{
+  "rapidapi": {
+    "name": "E-Invoice Router API",
+    "description": "EU e-invoicing validation, conversion, and country rule lookup. Supports all 27 EU member states and 7 invoice syntax formats (UBL 2.1, CII, PEPPOL BIS Billing 3.0, XRechnung, FatturaPA, Facturae, ZUGFeRD).",
+    "version": "1.0.0",
+    "pricing": {
+      "model": "tiered",
+      "plans": [
+        {
+          "name": "Free",
+          "requests_per_month": 500,
+          "rate_limit_per_minute": 10,
+          "price_monthly": 0,
+          "features": ["Validation", "Single country lookup", "Health check"]
+        },
+        {
+          "name": "Starter",
+          "requests_per_month": 10000,
+          "rate_limit_per_minute": 60,
+          "price_monthly": 29,
+          "features": ["Validation", "Conversion", "All country rules", "Sample invoices"]
+        },
+        {
+          "name": "Professional",
+          "requests_per_month": 100000,
+          "rate_limit_per_minute": 300,
+          "price_monthly": 99,
+          "features": ["All endpoints", "Bulk validation", "Priority support", "VAT check"]
+        },
+        {
+          "name": "Enterprise",
+          "requests_per_month": 1000000,
+          "rate_limit_per_minute": 1000,
+          "price_monthly": 499,
+          "features": ["Unlimited", "SLA guarantee", "Dedicated support", "Custom rules", "White-label"]
+        }
+      ]
+    },
+    "endpoints": {
+      "validate": {
+        "method": "POST",
+        "path": "/v1/validate",
+        "description": "Validate an e-invoice against format-specific and country-specific rules",
+        "request": {
+          "body": {
+            "invoice": "object (required) — Invoice JSON data",
+            "format": "string (required) — ubl, cii, peppol_bis, fattura_pa, xrechnung, facturae, zugferd",
+            "country": "string (optional) — ISO 3166-1 alpha-2 country code"
+          }
+        }
+      },
+      "convert": {
+        "method": "POST",
+        "path": "/v1/convert",
+        "description": "Convert between supported e-invoice formats via EN 16931 semantic mapping",
+        "request": {
+          "body": {
+            "invoice": "object (required) — Source invoice data",
+            "source_format": "string (required) — Source format",
+            "target_format": "string (required) — Target format"
+          }
+        }
+      },
+      "country": {
+        "method": "GET",
+        "path": "/v1/country/{code}",
+        "description": "Get e-invoicing rules for a specific EU country"
+      },
+      "countries": {
+        "method": "GET",
+        "path": "/v1/countries",
+        "description": "List all 27 EU countries with their e-invoicing rules"
+      },
+      "formats": {
+        "method": "GET",
+        "path": "/v1/formats",
+        "description": "List supported e-invoice formats and validation rules"
+      },
+      "samples": {
+        "method": "GET",
+        "path": "/v1/samples/{format}",
+        "description": "Get a sample invoice for a specific format"
+      },
+      "health": {
+        "method": "GET",
+        "path": "/v1/health",
+        "description": "Health check and system status"
+      }
+    },
+    "auth": {
+      "type": "api_key",
+      "header": "X-API-Key",
+      "description": "API key authentication via X-API-Key header"
+    },
+    "rate_limiting": {
+      "description": "Rate limited per IP address. Limits vary by plan."
+    },
+    "categories": ["e-invoicing", "finance", "tax", "compliance", "eu"],
+    "tags": ["einvoice", "peppol", "ubl", "cii", "xrechnung", "fattura-pa", "facturae", "zugferd", "vat", "eu-tax"],
+    "support": {
+      "email": "support@einvoicerouter.com",
+      "docs_url": "https://einvoicerouter.com/docs"
+    }
+  }
+}
